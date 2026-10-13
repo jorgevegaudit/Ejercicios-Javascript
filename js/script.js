@@ -162,13 +162,38 @@ var botonDano = document.querySelector("#boton-dano");
 var botonCurar = document.querySelector("#boton-curar");
 var vidaNumero = document.querySelector("#vida-numero");
 var barraRelleno = document.querySelector("#barra-relleno");
+var estado = document.querySelector("#estado");
+var hudVida = document.querySelector("#hud-vida");
 
 
 
 function actualizarHud() {
-
+   hudVida.classList.remove("is-sano","is-herido","is-critico","is-muerto");
    vidaNumero.textContent = vida;
    barraRelleno.style.width = vida + "%";
+
+   if(vida > 60) {
+      hudVida.classList.add("is-sano");
+      estado.textContent = "Sano";
+
+   } else if (vida > 30) {
+      hudVida.classList.add("is-herido");
+      estado.textContent = "Herido";
+
+   } else if (vida > 0) {
+    hudVida.classList.add("is-critico");
+    estado.textContent = "Crítico,cuidado!";  
+
+   } 
+   else{
+      hudVida.classList.add("is-muerto");
+      estado.textContent = "Estas muerto!"
+   }
+   
+
+   
+
+
 }
 
 botonDano.addEventListener("click", function() {
