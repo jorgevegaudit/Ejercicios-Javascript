@@ -1,0 +1,600 @@
+/* =========================================================
+   EJERCICIOS JS: if/else, for y this · Diseño Web Avanzado
+   Grado en Videojuegos · estética de HUD
+   ========================================================= */
+
+/* ---------- Variables ---------- */
+:root {
+    --color-fondo: #0D1219;
+    --color-superficie: #151C26;
+    --color-panel: #0A0E14;
+    --color-casilla: #253040;
+    --color-texto: #E9F3EE;
+    --color-suave: #8FA39B;
+    --color-borde: #263241;
+    --color-acento: #3CFF9A;
+    --color-ambar: #FFB020;
+    --color-error: #FF4D6A;
+    --color-oscuro: #04120A;            /* texto sobre el verde */
+
+    --fuente-ui: "Rajdhani", system-ui, "Segoe UI", Arial, sans-serif;
+    --fuente-codigo: "Space Mono", "Courier New", monospace;
+
+    --espacio: 1.5rem;
+    --radio: 4px;
+    --ancho-max: 960px;
+    --transicion: 0.25s ease;
+}
+
+/* ---------- Reset básico ---------- */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: calc(var(--espacio) * 1.5);
+    padding: calc(var(--espacio) * 2) var(--espacio);
+    background-color: var(--color-fondo);
+    /* Rejilla sutil de fondo, como una pantalla de HUD */
+    background-image:
+        linear-gradient(rgba(60, 255, 154, 0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(60, 255, 154, 0.04) 1px, transparent 1px);
+    background-size: 32px 32px;
+    color: var(--color-texto);
+    font-family: var(--fuente-ui);
+    font-size: 1.1rem;
+    font-weight: 500;
+    line-height: 1.5;
+}
+
+code {
+    font-family: var(--fuente-codigo);
+    font-size: 0.85em;
+    padding: 0.05rem 0.35rem;
+    color: var(--color-acento);
+    background-color: var(--color-panel);
+    border-radius: 3px;
+}
+
+img {
+    display: block;
+    max-width: 100%;
+}
+
+/* ---------- Cabecera ---------- */
+.cabecera {
+    width: 100%;
+    max-width: var(--ancho-max);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    text-align: center;
+}
+
+.cabecera__kicker {
+    font-family: var(--fuente-codigo);
+    font-size: 0.8rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--color-acento);
+}
+
+.cabecera h1 {
+    font-size: 2.6rem;
+    line-height: 1.1;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+.cabecera__texto {
+    color: var(--color-suave);
+    max-width: 40rem;
+}
+
+/* ---------- Bloques de ejercicio ---------- */
+.ejercicios {
+    width: 100%;
+    max-width: var(--ancho-max);
+    display: flex;
+    flex-direction: column;
+    gap: calc(var(--espacio) * 1.5);
+}
+
+.ejercicio {
+    display: flex;
+    flex-direction: column;
+    gap: var(--espacio);
+    padding: var(--espacio);
+    background-color: var(--color-superficie);
+    border: 1px solid var(--color-borde);
+    border-radius: var(--radio);
+}
+
+.ejercicio__cabecera {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+}
+
+.ejercicio__cabecera h2 {
+    font-size: 1.5rem;
+    line-height: 1.2;
+    margin-bottom: 0.3rem;
+}
+
+.ejercicio__cabecera p {
+    color: var(--color-suave);
+}
+
+.ejercicio__numero {
+    flex: 0 0 2.5rem;
+    height: 2.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: var(--fuente-codigo);
+    font-weight: 700;
+    color: var(--color-oscuro);
+    background-color: var(--color-acento);
+    border-radius: var(--radio);
+}
+
+.ejercicio__zona {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.2rem;
+    padding: var(--espacio);
+    background-color: var(--color-panel);
+    border: 1px solid var(--color-borde);
+    border-radius: var(--radio);
+}
+
+/* ---------- Botones ---------- */
+.boton {
+    padding: 0.6rem 1.4rem;
+    font-family: var(--fuente-ui);
+    font-size: 1.05rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--color-oscuro);
+    background-color: var(--color-acento);
+    border: 2px solid var(--color-acento);
+    border-radius: var(--radio);
+    cursor: pointer;
+    transition: background-color var(--transicion), border-color var(--transicion), color var(--transicion), opacity var(--transicion);
+}
+
+.boton:hover {
+    color: var(--color-acento);
+    background-color: transparent;
+}
+
+.boton--borde {
+    color: var(--color-texto);
+    background-color: transparent;
+    border-color: var(--color-texto);
+}
+
+.boton--borde:hover {
+    color: var(--color-oscuro);
+    background-color: var(--color-texto);
+}
+
+.boton--peligro {
+    color: #FFFFFF;
+    background-color: var(--color-error);
+    border-color: var(--color-error);
+}
+
+.boton--peligro:hover {
+    color: var(--color-error);
+}
+
+/* Botón desactivado con disabled (extra del ejercicio 1) */
+.boton:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+}
+
+.botones {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.8rem;
+}
+
+/* Clase de utilidad para esconder elementos desde JS */
+.is-oculto {
+    display: none;
+}
+
+.contador {
+    font-family: var(--fuente-codigo);
+    font-size: 0.85rem;
+    color: var(--color-suave);
+}
+
+.contador.is-error {
+    color: var(--color-error);
+    font-weight: 700;
+}
+
+/* ---------- Ejercicio 1: barra de vida ---------- */
+/* El color de la barra depende de la clase de estado del bloque .hud-vida.
+   El JS solo cambia la clase: los colores están aquí. */
+.hud-vida {
+    --color-estado: var(--color-acento);
+    width: 100%;
+    max-width: 520px;
+    display: flex;
+    align-items: center;
+    gap: 0.9rem;
+}
+
+.hud-vida.is-sano    { --color-estado: var(--color-acento); }
+.hud-vida.is-herido  { --color-estado: var(--color-ambar); }
+.hud-vida.is-critico { --color-estado: var(--color-error); }
+.hud-vida.is-muerto  { --color-estado: var(--color-suave); }
+
+.hud-vida__icono {
+    width: 40px;
+    height: 40px;
+}
+
+/* En estado crítico, el corazón late */
+.hud-vida.is-critico .hud-vida__icono {
+    animation: latido 0.6s steps(2) infinite;
+}
+
+.hud-vida.is-muerto .hud-vida__icono {
+    filter: grayscale(1);
+    opacity: 0.5;
+}
+
+.barra {
+    flex: 1;
+    height: 26px;
+    padding: 3px;
+    background-color: var(--color-fondo);
+    border: 2px solid var(--color-borde);
+    border-radius: var(--radio);
+}
+
+.barra__relleno {
+    width: 100%;                      /* el JS cambia este ancho */
+    height: 100%;
+    background-color: var(--color-estado);
+    /* Segmentos dibujados con un degradado repetido */
+    background-image: repeating-linear-gradient(90deg, transparent 0 18px, rgba(0, 0, 0, 0.35) 18px 20px);
+    border-radius: 2px;
+    transition: width 0.3s ease, background-color 0.3s ease;
+}
+
+.hud-vida__numero {
+    min-width: 4.5rem;
+    font-family: var(--fuente-codigo);
+    font-weight: 700;
+    text-align: right;
+    color: var(--color-estado);
+}
+
+.estado {
+    padding: 0.2rem 1rem;
+    font-family: var(--fuente-codigo);
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-oscuro);
+    background-color: var(--color-acento);
+    border-radius: var(--radio);
+}
+
+/* El texto de estado usa el mismo color que la barra */
+.hud-vida.is-herido ~ .estado  { background-color: var(--color-ambar); }
+.hud-vida.is-critico ~ .estado { background-color: var(--color-error); color: #FFFFFF; }
+.hud-vida.is-muerto ~ .estado  {
+    background-color: transparent;
+    color: var(--color-error);
+    font-size: 1.4rem;
+    animation: parpadeo 1s steps(1) infinite;
+}
+
+/* ---------- Ejercicio 2: inventario ---------- */
+.inventario {
+    display: grid;
+    grid-template-columns: repeat(6, 88px);
+    gap: 10px;
+}
+
+/* Cada casilla la crea el JavaScript con esta clase */
+.casilla {
+    height: 88px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.25rem;
+    background-color: var(--color-casilla);
+    border: 2px solid var(--color-acento);
+    border-radius: var(--radio);
+    animation: aparecer 0.3s ease both;
+}
+
+.casilla img {
+    width: 44px;
+    height: 44px;
+}
+
+.casilla span {
+    font-family: var(--fuente-codigo);
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    color: var(--color-texto);
+}
+
+.casilla--vacia {
+    background-color: transparent;
+    border: 2px dashed var(--color-borde);
+}
+
+/* ---------- Ejercicio 3: selección de personaje ---------- */
+.seleccion {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.2rem;
+}
+
+.personajes {
+    flex: 1 1 380px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.9rem;
+}
+
+.personaje {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.2rem;
+    padding: 0.9rem;
+    font-family: var(--fuente-ui);
+    color: var(--color-texto);
+    background-color: var(--color-superficie);
+    border: 2px solid var(--color-borde);
+    border-radius: var(--radio);
+    cursor: pointer;
+    transition: border-color var(--transicion), transform var(--transicion);
+}
+
+.personaje:hover {
+    border-color: var(--color-suave);
+    transform: translateY(-3px);
+}
+
+/* Clase que añade el JS a la carta elegida */
+.personaje.is-seleccionado {
+    border-color: var(--color-acento);
+    box-shadow: 0 0 0 3px rgba(60, 255, 154, 0.25), 0 0 18px rgba(60, 255, 154, 0.35);
+}
+
+.personaje__retrato {
+    width: 100%;
+    height: 90px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 0.4rem;
+    border-radius: var(--radio);
+}
+
+.personaje:nth-child(1) .personaje__retrato { background-color: #FF4D4D; }
+.personaje:nth-child(2) .personaje__retrato { background-color: #8E5CFF; }
+.personaje:nth-child(3) .personaje__retrato { background-color: #3CD070; }
+.personaje:nth-child(4) .personaje__retrato { background-color: #FFC93C; }
+
+.personaje__retrato img {
+    width: 60px;
+    height: 60px;
+}
+
+.personaje__nombre {
+    font-size: 1.25rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.personaje__clase {
+    font-family: var(--fuente-codigo);
+    font-size: 0.75rem;
+    color: var(--color-suave);
+}
+
+.ficha {
+    flex: 1 1 280px;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    padding: 1.2rem;
+    background-color: var(--color-superficie);
+    border: 2px solid var(--color-borde);
+    border-radius: var(--radio);
+}
+
+.ficha__clase {
+    font-family: var(--fuente-codigo);
+    font-size: 0.75rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-ambar);
+}
+
+.ficha__nombre {
+    font-size: 2rem;
+    line-height: 1;
+    text-transform: uppercase;
+}
+
+.ficha__texto {
+    min-height: 3em;
+    color: var(--color-suave);
+}
+
+.stats {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-bottom: 0.6rem;
+}
+
+.stats__fila {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+}
+
+.stats__fila span {
+    flex: 0 0 5.5rem;
+    font-family: var(--fuente-codigo);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    color: var(--color-suave);
+}
+
+.stat {
+    flex: 1;
+    height: 12px;
+    background-color: var(--color-fondo);
+    border-radius: 2px;
+    overflow: hidden;
+}
+
+.stat__relleno {
+    width: 0;                          /* el JS cambia este ancho */
+    height: 100%;
+    background-color: var(--color-acento);
+    transition: width 0.4s ease;
+}
+
+/* ---------- Ventana modal ---------- */
+/* Oculta por defecto: el JS le añade la clase is-abierta */
+.modal {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: var(--espacio);
+    background-color: rgba(4, 7, 10, 0.8);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity var(--transicion), visibility var(--transicion);
+}
+
+.modal.is-abierta {
+    opacity: 1;
+    visibility: visible;
+}
+
+.modal__caja {
+    position: relative;
+    width: 100%;
+    max-width: 440px;
+    padding: calc(var(--espacio) * 1.5);
+    text-align: center;
+    background-color: var(--color-superficie);
+    border: 2px solid var(--color-acento);
+    border-radius: var(--radio);
+    box-shadow: 0 0 30px rgba(60, 255, 154, 0.25);
+    transform: scale(0.9);
+    transition: transform var(--transicion);
+}
+
+.modal.is-abierta .modal__caja {
+    transform: scale(1);
+}
+
+.modal__etiqueta {
+    font-family: var(--fuente-codigo);
+    font-size: 0.75rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--color-ambar);
+    margin-bottom: 0.4rem;
+}
+
+.modal__titulo {
+    font-size: 2rem;
+    line-height: 1.1;
+    text-transform: uppercase;
+    margin-bottom: 0.6rem;
+    color: var(--color-acento);
+}
+
+.modal__texto {
+    color: var(--color-suave);
+}
+
+.modal__cerrar {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.8rem;
+    font-size: 1.8rem;
+    line-height: 1;
+    color: var(--color-texto);
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+/* ---------- Animaciones ---------- */
+@keyframes latido {
+    50% { transform: scale(1.2); }
+}
+
+@keyframes parpadeo {
+    50% { opacity: 0; }
+}
+
+@keyframes aparecer {
+    from { opacity: 0; transform: scale(0.8); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 700px) {
+    .inventario {
+        grid-template-columns: repeat(4, 72px);
+    }
+
+    .casilla {
+        height: 72px;
+    }
+
+    .casilla img {
+        width: 36px;
+        height: 36px;
+    }
+}
+
+@media (max-width: 420px) {
+    .inventario {
+        grid-template-columns: repeat(3, 72px);
+    }
+
+    .personajes {
+        grid-template-columns: 1fr 1fr;
+    }
+}

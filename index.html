@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejercicios JS: if/else, for y this</title>
+
+    <!-- Tipografías (Google Fonts) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Space+Mono:wght@400;700&display=swap">
+
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+    <header class="cabecera">
+        <p class="cabecera__kicker">Diseño Web Avanzado · Tema 1</p>
+        <h1>Ejercicios de JavaScript</h1>
+        <p class="cabecera__texto">Condicionales, bucles y <code>this</code> aplicados a piezas de interfaz de videojuego. Las instrucciones detalladas están en <code>js/script.js</code>.</p>
+    </header>
+
+    <main class="ejercicios">
+
+        <!-- ============ EJERCICIO 1: IF / ELSE IF / ELSE ============ -->
+        <section class="ejercicio" id="ejercicio-1">
+            <div class="ejercicio__cabecera">
+                <span class="ejercicio__numero">1</span>
+                <div>
+                    <h2>Condicionales: barra de vida</h2>
+                    <p>La vida del personaje va de <strong>0 a 100</strong>. Los botones restan o suman vida y una cadena de <code>if / else if / else</code> decide el estado de la barra: sano, herido, crítico o <em>game over</em>.</p>
+                </div>
+            </div>
+
+            <div class="ejercicio__zona">
+                <!-- El JavaScript cambia la clase de estado de este bloque (is-sano, is-herido...) -->
+                <div class="hud-vida is-sano" id="hud-vida">
+                    <img src="img/corazon.svg" alt="" class="hud-vida__icono">
+                    <div class="barra">
+                        <div class="barra__relleno" id="barra-relleno"></div>
+                    </div>
+                    <p class="hud-vida__numero"><span id="vida-numero">100</span>/100</p>
+                </div>
+
+                <p class="estado" id="estado">Sano</p>
+
+                <div class="botones">
+                    <button type="button" class="boton boton--peligro" id="boton-dano">Recibir daño −15</button>
+                    <button type="button" class="boton" id="boton-curar">Curar +10</button>
+                    <!-- Oculto al principio: solo se usa en el extra -->
+                    <button type="button" class="boton boton--borde is-oculto" id="boton-reintentar">Reintentar</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============ EJERCICIO 2: BUCLE FOR ============ -->
+        <section class="ejercicio" id="ejercicio-2">
+            <div class="ejercicio__cabecera">
+                <span class="ejercicio__numero">2</span>
+                <div>
+                    <h2>Bucles: inventario</h2>
+                    <p>Al abrir el inventario, un bucle <code>for</code> recorre la lista de objetos y crea una casilla por cada uno. Un segundo bucle dibuja vacías las casillas que sobran hasta llenar la mochila.</p>
+                </div>
+            </div>
+
+            <div class="ejercicio__zona">
+                <button type="button" class="boton" id="boton-inventario">Abrir inventario</button>
+
+                <!-- El JavaScript crea aquí dentro las casillas -->
+                <div class="inventario" id="inventario"></div>
+
+                <p class="contador" id="inventario-info">El inventario está cerrado.</p>
+            </div>
+        </section>
+
+        <!-- ============ EJERCICIO 3: THIS + FICHA + VENTANA MODAL ============ -->
+        <section class="ejercicio" id="ejercicio-3">
+            <div class="ejercicio__cabecera">
+                <span class="ejercicio__numero">3</span>
+                <div>
+                    <h2>this: selección de personaje</h2>
+                    <p>Hay una sola ficha para los cuatro personajes. Al pulsar una carta, la ficha se rellena con los datos de esa carta (<code>this</code>) y la carta queda marcada. Al pulsar "Jugar" se abre una ventana modal con tu elección.</p>
+                </div>
+            </div>
+
+            <div class="ejercicio__zona">
+                <div class="seleccion">
+
+                    <!-- Cada carta guarda los datos de su personaje en atributos data- -->
+                    <div class="personajes">
+                        <button type="button" class="personaje"
+                            data-nombre="Brasa"
+                            data-clase="Guerrera"
+                            data-texto="Abre camino a golpe de espada. Aguanta lo que le echen, aunque no es la más rápida."
+                            data-fuerza="90" data-magia="10" data-velocidad="45">
+                            <span class="personaje__retrato"><img src="img/espada.svg" alt=""></span>
+                            <span class="personaje__nombre">Brasa</span>
+                            <span class="personaje__clase">Guerrera</span>
+                        </button>
+
+                        <button type="button" class="personaje"
+                            data-nombre="Orbe"
+                            data-clase="Mago"
+                            data-texto="Domina los hechizos de fuego y hielo. Frágil de cerca, imparable desde lejos."
+                            data-fuerza="20" data-magia="95" data-velocidad="40">
+                            <span class="personaje__retrato"><img src="img/baston.svg" alt=""></span>
+                            <span class="personaje__nombre">Orbe</span>
+                            <span class="personaje__clase">Mago</span>
+                        </button>
+
+                        <button type="button" class="personaje"
+                            data-nombre="Zarza"
+                            data-clase="Arquera"
+                            data-texto="Nunca falla un disparo a distancia y cruza el bosque sin hacer ruido."
+                            data-fuerza="45" data-magia="30" data-velocidad="85">
+                            <span class="personaje__retrato"><img src="img/arco.svg" alt=""></span>
+                            <span class="personaje__nombre">Zarza</span>
+                            <span class="personaje__clase">Arquera</span>
+                        </button>
+
+                        <button type="button" class="personaje"
+                            data-nombre="Nix"
+                            data-clase="Pícaro"
+                            data-texto="Rápido, escurridizo y siempre con una bomba a mano para las emergencias."
+                            data-fuerza="50" data-magia="25" data-velocidad="95">
+                            <span class="personaje__retrato"><img src="img/bomba.svg" alt=""></span>
+                            <span class="personaje__nombre">Nix</span>
+                            <span class="personaje__clase">Pícaro</span>
+                        </button>
+                    </div>
+
+                    <!-- Una sola ficha: el JavaScript la rellena con el personaje pulsado -->
+                    <aside class="ficha">
+                        <p class="ficha__clase" id="ficha-clase">Elige un personaje</p>
+                        <h3 class="ficha__nombre" id="ficha-nombre">???</h3>
+                        <p class="ficha__texto" id="ficha-texto">Pulsa una carta para ver sus estadísticas.</p>
+
+                        <ul class="stats">
+                            <li class="stats__fila">
+                                <span>Fuerza</span>
+                                <div class="stat"><div class="stat__relleno" id="stat-fuerza"></div></div>
+                            </li>
+                            <li class="stats__fila">
+                                <span>Magia</span>
+                                <div class="stat"><div class="stat__relleno" id="stat-magia"></div></div>
+                            </li>
+                            <li class="stats__fila">
+                                <span>Velocidad</span>
+                                <div class="stat"><div class="stat__relleno" id="stat-velocidad"></div></div>
+                            </li>
+                        </ul>
+
+                        <button type="button" class="boton" id="boton-jugar">¡Jugar!</button>
+                    </aside>
+
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- ============ VENTANA MODAL (ejercicio 3) ============ -->
+    <div class="modal" id="modal">
+        <div class="modal__caja">
+            <button type="button" class="modal__cerrar" id="modal-cerrar" aria-label="Cerrar">×</button>
+            <p class="modal__etiqueta">Jugador 1</p>
+            <h2 class="modal__titulo" id="modal-titulo">¡Preparado!</h2>
+            <p class="modal__texto" id="modal-texto">Texto de la partida.</p>
+        </div>
+    </div>
+
+</body>
+</html>
