@@ -151,3 +151,42 @@
 
 
 // Empieza aquí tu código
+console.log("Online");
+
+
+var vida = 100;
+const DANO = 15;
+const CURA = 10;
+
+var botonDano = document.querySelector("#boton-dano");
+var botonCurar = document.querySelector("#boton-curar");
+var vidaNumero = document.querySelector("#vida-numero");
+var barraRelleno = document.querySelector("#barra-relleno");
+
+
+
+function actualizarHud() {
+
+   vidaNumero.textContent = vida;
+   barraRelleno.style.width = vida + "%";
+}
+
+botonDano.addEventListener("click", function() {
+   vida = vida - DANO;
+if (vida < 0) {
+   vida = 0;
+}
+
+   actualizarHud();
+
+});
+
+botonCurar.addEventListener("click", function() {
+   vida = vida + CURA;
+   if(vida > 100) {
+      vida = 100;
+   }
+   actualizarHud();
+
+});
+
